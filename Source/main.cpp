@@ -13,7 +13,6 @@ int main(void){
     DUMP(st);
     for  (int i = 0; i < 100; i++){
         StackPop(&st, &e);
-        printf("%d\n",e);
     }
     printf("%d",e);
     return 0;
