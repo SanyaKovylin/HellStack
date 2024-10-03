@@ -65,19 +65,19 @@ void SetLog(const char* name);
 
 #ifndef NOOOOOOOOOOOOOO
     #define STACK_ASSERT(st) \
-        if(StackError c = StackCheck (&st)) \
+        if(StackError c = StackCheck (st)) \
         { \
             ChangeColourTo(Red);\
             fprintf(stderr, "%s\n",Definition(c));\
             fprintf(stderr ,"%s:%d\n" ,__FILE__, __LINE__);\
             ChangeColourTo(DefaultColor);\
-            StackDump (&st, __FILE__, __LINE__, Definition(c));\
+            StackDump (st, __FILE__, __LINE__, Definition(c));\
         }
 
-    #define DUMP(st) StackDump (&st, __FILE__, __LINE__, "SimpleDump");
+    #define DUMP(st) StackDump (st, __FILE__, __LINE__, "SimpleDump");
 
     #ifndef NOHASH
-        #define DEBUG src->info = {__FILE__, Hash(src->src, (char *) src->src+src->size), var};
+        #define DEBUG if (src->size) src->info = {__FILE__, Hash(src->src, (char *) src->src+src->size), var};
     #endif
 
 #else

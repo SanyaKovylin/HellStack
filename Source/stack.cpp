@@ -6,17 +6,16 @@
 #include "stack.h"
 #include "stackdef.h"
 
-static const int Mask = rand();
+
 
 template <typename T>
 inline T val (T value) { return StackCheck(value);}
 
-#define     val( value )        ( value )
+#define val(value) ( value )
 #define verified  || val(src)
 #define Max(x, y) (x) > (y) ? (x) : (y)
 
 const char *var = "src";
-
 FILE *flog = stderr;
 
 StackError StackCtor (Stack *src, size_t length, size_t elsize, char toxicvalue, void (*FprintFunc)(FILE* flog, void* elem)){
@@ -43,24 +42,25 @@ StackError StackCtor (Stack *src, size_t length, size_t elsize, char toxicvalue,
     #endif
 
     src->pointer = 0;
-    DEBUG;
 
     STACK_ASSERT(*src);
     return StackCheck(src);
 }
 
 StackError StackDtor(Stack *src){
-    STACK_ASSERT(*src);
+    STACK_ASSERT(*src); //TODO
 
     free(src->src);
     src->pointer = 0;
     src->size = 0;
     src->toxic = 0;
+
     #if !defined(NOOOOOOOOOOOOOO) && !defined(NOCANS)
         src->CanLeft = 0;
         src->CanRight = 0;
         src->info = {};
     #endif
+
     src->elsize = 0;
     src->FprintF = NULL;
     src->src = NULL;
@@ -141,11 +141,12 @@ StackError StackCheck (Stack *src) {
         if (memcmp((char*)src->src - Cansize, Can, Cansize) ||
             memcmp((char *)src->src + src->size, Can, Cansize)) {
             return LAZHA;}
-        if (src->CanLeft != CanStruct || src->CanRight != CanStruct) return LAZHA_V_STRUCTE;
+        if (src->CanLeft != CanStruct || src->CanRight != CanStruct) {
+        return LAZHA_V_STRUCTE;}
     #endif
 
     #if !defined(NOHASH) && !defined(NOOOOOOOOOOOOOO)
-        if (Hash(src->src, (char *)src->src + src->size) != src->info.line) return POPALSYA_NA_HASHE;
+        if (src->size && (Hash(src->src, (char *)src->src + src->size) != src->info.line)) return POPALSYA_NA_HASHE;
     #endif
 
     return ST_OK;
@@ -192,16 +193,18 @@ size_t Hash(void* st, void* end) { //Adler32
 
     assert((char *) end > (char *) st);
 
-    unsigned short A = 1;
-    unsigned short B = 0;
+    static const int Mask = rand();
+
+    unsigned short Low = 1;
+    unsigned short High = 0;
 
     for (size_t i = 0; i < (size_t) ((char*) end - (char *) st); i++) {
         if (Mask & (1 << i)){
-            A += *(((unsigned char *) st) + i);
-            B += A;
+            Low += *(((unsigned char *) st) + i);
+            High += Low;
         }
     }
-    return B * 65536 + A;
+    return (High << 16) | Low;
 }
 
 void SetLog(const char* name){
@@ -220,6 +223,7 @@ const char *Definition (StackError code ){
         DEF_ERR(LAZHA)
         DEF_ERR(POPALSYA_NA_HASHE)
         DEF_ERR(LAZHA_V_STRUCTE)
+        default: return "OTKUDA VY VZYALI ETU OSHIBKY?";
     }
 }
 #pragma GCC diagnostic error "-Wswitch-default"
