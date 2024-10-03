@@ -3,7 +3,6 @@
 #include <malloc.h>
 #include <string.h>
 #include <assert.h>
-
 #include "stack.h"
 #include "stackdef.h"
 
@@ -18,12 +17,16 @@ inline T val (T value) { return StackCheck(value);}
 
 const char *var = "src";
 
-FILE *flog = fopen("Stack.log", "w");
+FILE *flog = stderr;
 
 StackError StackCtor (Stack *src, size_t length, size_t elsize, char toxicvalue, void (*FprintFunc)(FILE* flog, void* elem)){
 
-    src->src = (void *) calloc (1, length * elsize + 2*Cansize);
-    memcpy(src->src, Can, Cansize);
+    #if !defined(NOCANS) && !defined(NOOOOOOOOOOOOOO)
+        src->src = (void *) calloc (1, length * elsize + 2*Cansize);
+        memcpy(src->src, Can, Cansize);
+    #else
+        src->src = (void *) calloc (1, length * elsize);
+    #endif
 
     if (src->src == NULL) return EMPTY_SOURCE;
 
@@ -31,10 +34,16 @@ StackError StackCtor (Stack *src, size_t length, size_t elsize, char toxicvalue,
     src->FprintF = FprintFunc;
     src->size = length * elsize;
     src->toxic = toxicvalue;
-    memcpy((char*) src->src +  src->elsize * length + Cansize, Can, Cansize);
+
+    #if !defined(NOCANS) && !defined(NOOOOOOOOOOOOOO)
+        src->src = (void *) ((char *) src->src + Cansize);
+        memcpy((char*) src->src +  src->elsize * length, Can, Cansize);
+        src->CanRight = CanStruct;
+        src->CanLeft = CanStruct;
+    #endif
 
     src->pointer = 0;
-    src->info = {__FILE__, Hash(src->src, (char *)src->src + src->size), var};
+    DEBUG;
 
     STACK_ASSERT(*src);
     return StackCheck(src);
@@ -46,42 +55,56 @@ StackError StackDtor(Stack *src){
     free(src->src);
     src->pointer = 0;
     src->size = 0;
-
-    STACK_ASSERT(*src);
-    return StackCheck(src);
+    src->toxic = 0;
+    #if !defined(NOOOOOOOOOOOOOO) && !defined(NOCANS)
+        src->CanLeft = 0;
+        src->CanRight = 0;
+        src->info = {};
+    #endif
+    src->elsize = 0;
+    src->FprintF = NULL;
+    src->src = NULL;
+    fclose(flog);
+    return ST_OK;
 }
 
 StackError StackPush (Stack *src, void* elem){
     STACK_ASSERT(*src);
 
-    if (src->pointer == src->size - src->elsize) {
-        Resize(src, src->size * 2, src->size) verified;
+    if (src->pointer == src->size) {
+        Resize(src,(int)((float) src->size * resizeval), src->size) verified;
     }
+    if (src->size == 0) {
+        Resize(src, DefaultSize, 0) verified;
+    }
+    memcpy((char*) src->src + src->pointer, elem, src->elsize);
 
-    memcpy((char*) src->src + Cansize + src->pointer, elem, src->elsize);
-    // ((type*) ((char*) src->src + Cansize))[src->pointer] = elem;
     src->pointer += src->elsize;
 
-    src->info = {__FILE__, Hash(src->src, (char *)src->src + src->size), var};
+    DEBUG;
 
     STACK_ASSERT(*src);
     return StackCheck(src);
 }
-
 
 StackError Resize(Stack *src, size_t size, size_t lastsize) {
     STACK_ASSERT(*src);
 
     src->size =  Max(size, DefaultSize * src->elsize);
 
-    void *buf = (void*) realloc (src->src, src->size + 2*Cansize);
-    if (!buf) return EMPTY_STACK;
+    #if !defined(NOCANS) && !defined(NOOOOOOOOOOOOOO)
+        void *buf = (void*) realloc ((char*) src->src - Cansize, src->size + 2*Cansize);
+        if (!buf) return EMPTY_STACK;
+        memset((char *)buf + lastsize + Cansize, src->toxic, lastsize);
+        src->src = (char *)buf + Cansize;
+        memcpy((char*)src->src + src->size, Can, Cansize);
+    #else
+        void *buf = (void*) realloc ((char*) src->src, src->size);
+        if (!buf) return EMPTY_STACK;
+        src->src = (char *)buf;
+    #endif
 
-    memset((char *)buf + lastsize + Cansize, src->toxic, lastsize);
-    src->src = buf;
-
-    memcpy((char*)src->src + src->size + Cansize, Can, Cansize);
-    src->info = {__FILE__, Hash(src->src, (char *) src->src+src->size), var};
+    DEBUG;
 
     DUMP(*src);
     STACK_ASSERT(*src);
@@ -93,18 +116,16 @@ StackError StackPop (Stack *src, void *elem){
     STACK_ASSERT(*src);
 
     src->pointer -= src->elsize;
-    memcpy(elem , (char*) src->src + Cansize + src->pointer, src->elsize);
-    // *elem = ((type*) ((char*) src->src + Cansize))[src->pointer];
-    memset((char*) src->src + Cansize + src->pointer, 0, src->elsize);
-    // ((type*) ((char*) src->src + Cansize))[src->pointer] = 0;
+    memcpy(elem , (char*) src->src + src->pointer, src->elsize);
+    memset((char*) src->src + src->pointer, 0, src->elsize);
 
-    src->info = {__FILE__, Hash(src->src, (char *)src->src + src->size), var};
+    DEBUG;
 
-    if (src->pointer <= src->size / 4 && src->size > DefaultSize){
-        Resize(src, src->size/2, src->size) verified;
+    if (src->pointer <= (int) ((float)src->size / resizeval) && src->size > DefaultSize){
+        Resize(src, (int)((float)src->size / resizeval), src->size) verified;
     }
 
-    src->info = {__FILE__, Hash(src->src, (char *)src->src + src->size), var};
+    DEBUG;
 
     STACK_ASSERT(*src);
     return StackCheck(src);
@@ -115,43 +136,59 @@ StackError StackCheck (Stack *src) {
     if (src == NULL)                                 return EMPTY_STACK   ;
     if (src->src == NULL)                            return EMPTY_SOURCE  ;
     if (src->pointer > src->size && src->size != 0)  return STACK_OVERFLOW;
-    if (memcmp(src->src, Can, Cansize) ||
-        memcmp((char *)src->src + src->size + Cansize, Can, Cansize)) {
-        return LAZHA;}
-    if (Hash(src->src, (char *)src->src + src->size) != src->info.line) return POPALSYA_NA_HASHE;
+
+    #if !defined(NOCANS) && !defined(NOOOOOOOOOOOOOO)
+        if (memcmp((char*)src->src - Cansize, Can, Cansize) ||
+            memcmp((char *)src->src + src->size, Can, Cansize)) {
+            return LAZHA;}
+        if (src->CanLeft != CanStruct || src->CanRight != CanStruct) return LAZHA_V_STRUCTE;
+    #endif
+
+    #if !defined(NOHASH) && !defined(NOOOOOOOOOOOOOO)
+        if (Hash(src->src, (char *)src->src + src->size) != src->info.line) return POPALSYA_NA_HASHE;
+    #endif
+
     return ST_OK;
 }
+
 StackError StackDump(Stack *src, const char *file, const int line, const char *errname) {
 
     fprintf(flog, "Dump from %s:%d\n", file, line);
 
     fprintf(flog, "Error type: %s\n", errname);
     if (src->src != NULL){
-        for (size_t i = 0; i < Cansize; i++){
-                fprintf(flog, "[%c]", *((char*)src->src + i));
-        }
-        fputs("\n", flog);
+
+        #if !defined(NOHASH) && !defined(NOOOOOOOOOOOOOO)
+            for (size_t i = 0; i < Cansize; i++){
+                    fprintf(flog, "[%c]", *((char*)src->src + i - Cansize));
+            }
+            fputs("\n", flog);
+        #endif
+
         for (size_t i = 0; i < src->size / src->elsize; i++){
             if (i < src->pointer/src->elsize) {
-                // fprintf(flog, "* [%d]\n", src->src[i + 2]);
                 fputs("* [", flog);
-                src->FprintF(flog, (char *)src->src + Cansize + src->elsize*i);
+                src->FprintF(flog, (char *)src->src + src->elsize*i);
                 fputs("]\n", flog);
             }
             else {
                 fprintf(flog, "  [NONE] \n");
             }
         }
-        for (size_t i = 0; i < Cansize; i++){
-                fprintf(flog, "[%c]", *((char*)src->src + src->size + i + Cansize));
-        }
-        fprintf(flog, "\n");
+
+        #if !defined(NOHASH) && !defined(NOOOOOOOOOOOOOO)
+            for (size_t i = 0; i < Cansize; i++){
+                    fprintf(flog, "[%c]", *((char*)src->src + src->size + i));
+            }
+            fprintf(flog, "\n");
+        #endif
     }
     fprintf(flog,"\n--------------------------------------------------------------------------------\n");
     return StackCheck(src);
+
 }
 
-size_t Hash(void* st, void* end) {
+size_t Hash(void* st, void* end) { //Adler32
 
     assert((char *) end > (char *) st);
 
@@ -167,6 +204,10 @@ size_t Hash(void* st, void* end) {
     return B * 65536 + A;
 }
 
+void SetLog(const char* name){
+    flog = fopen(name, "w");
+}
+
 #pragma GCC diagnostic ignored "-Wswitch-default"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 const char *Definition (StackError code ){
@@ -178,6 +219,7 @@ const char *Definition (StackError code ){
         DEF_ERR(STACK_OVERFLOW)
         DEF_ERR(LAZHA)
         DEF_ERR(POPALSYA_NA_HASHE)
+        DEF_ERR(LAZHA_V_STRUCTE)
     }
 }
 #pragma GCC diagnostic error "-Wswitch-default"

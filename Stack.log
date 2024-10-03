@@ -1,10 +1,10 @@
-Dump from Source/main.cpp:8
+Dump from Source/main.cpp:10
 Error type: EMPTY_SOURCE
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -12,6 +12,7 @@ Error type: SimpleDump
 * [5]
 * [6]
 * [7]
+* [8]
   [NONE] 
   [NONE] 
   [NONE] 
@@ -20,13 +21,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-  [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -42,6 +42,7 @@ Error type: SimpleDump
 * [13]
 * [14]
 * [15]
+* [16]
   [NONE] 
   [NONE] 
   [NONE] 
@@ -58,13 +59,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-  [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -96,6 +96,7 @@ Error type: SimpleDump
 * [29]
 * [30]
 * [31]
+* [32]
   [NONE] 
   [NONE] 
   [NONE] 
@@ -128,13 +129,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-  [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -198,6 +198,7 @@ Error type: SimpleDump
 * [61]
 * [62]
 * [63]
+* [64]
   [NONE] 
   [NONE] 
   [NONE] 
@@ -262,13 +263,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-  [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/main.cpp:13
+Dump from Source/main.cpp:16
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -397,12 +397,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -467,12 +467,12 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:86
+Dump from Source/stack.cpp:109
 Error type: SimpleDump
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 * [1]
 * [2]
 * [3]
@@ -505,6 +505,6 @@ Error type: SimpleDump
   [NONE] 
   [NONE] 
   [NONE] 
-[T][e][a][2][t][a][l][e]
+[@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------

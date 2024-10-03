@@ -1,23 +1,26 @@
 #include <stdio.h>
+#define NOHASH 12
 #include "stack.h"
 
 void print_int(FILE *fw, void* elem);
 
 int main(void){
+    SetLog("Stack.log");
     Stack st = {};
     STACK_ASSERT(st);
     StackCtor(&st, 8, 4, '\r', print_int);
-    for (int i = 1; i < 116; i++)
+    for (int i = 1; i < 116; i++){
         StackPush(&st, &i);
+    }
     int e = 12;
     DUMP(st);
+
     for  (int i = 0; i < 100; i++){
         StackPop(&st, &e);
     }
-    printf("%d",e);
+    printf("%d", e);
     return 0;
 }
-
 void print_int(FILE *fw, void* elem) {
     fprintf(fw,"%d", *((int*) elem));
 }

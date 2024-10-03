@@ -9,7 +9,7 @@ enum Colour {
     LightBlue =        11,
     LightGrey =         7,
     Green     =         2,
-    Default   = LightGrey,
+    DefaultColor = LightGrey,
 };
 
 void ChangeColourTo (Colour colour);
