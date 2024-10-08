@@ -42,5 +42,9 @@ StackError StackPop    (Stack *src, void *elem);
 STACK_ASSERT(Stack *stack)
 DUMP(Stack *stack)
 ```
+> set the log file (which is ```stderr``` by default) by:
+```c
+void SetLog(const char* filename);
+```
 
 ### If you found a bug, please, write an issue on GitHub or [me](https://t.me/Tea2Taler)
