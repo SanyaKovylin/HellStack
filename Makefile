@@ -11,9 +11,11 @@ H = $(wildcard *.h)
 
 Build = Build
 Source = Source
-Exe = Onegin.exe
+Exe = HellStack.exe
 
 all: $(Build)/$(Exe)
+
+
 
 $(Build)/%.o : $(Source)/%.cpp | $(Build)
 	$(CC) $(COMP_FLAGS) $< -c -o $@

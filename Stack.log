@@ -1,8 +1,8 @@
-Dump from Source/main.cpp:9
+Dump from Source/main.cpp:10
 Error type: EMPTY_SOURCE
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
   [NONE] 
@@ -16,7 +16,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -38,7 +38,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -76,7 +76,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -146,7 +146,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -280,7 +280,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/main.cpp:15
+Dump from Source/main.cpp:16
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -414,7 +414,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -484,7 +484,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]
@@ -522,7 +522,7 @@ Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 
 --------------------------------------------------------------------------------
-Dump from Source/stack.cpp:107
+Dump from Source/stack.cpp:119
 Error type: SimpleDump
 [@][T][e][a][2][t][a][l][e][r]
 * [1]

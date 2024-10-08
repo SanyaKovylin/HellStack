@@ -19,7 +19,7 @@ struct Stack {
         long int CanLeft;
     #endif
 
-    void *src;
+    void *data;
     size_t elsize;
     size_t pointer;
     size_t size;
@@ -40,13 +40,17 @@ struct Stack {
 const float resizeval = 2;
 
 enum StackError{
-    ST_OK             = 0,
-    EMPTY_STACK       = 1,
-    EMPTY_SOURCE      = 2,
-    STACK_OVERFLOW    = 3,
-    LAZHA             = 4,
-    POPALSYA_NA_HASHE = 5,
-    LAZHA_V_STRUCTE   = 6,
+    ST_OK                    =  0,
+    EMPTY_STACK              =  1,
+    EMPTY_SOURCE             =  2,
+    STACK_OVERFLOW           =  3,
+    LAZHA                    =  4,
+    POPALSYA_NA_HASHE        =  5,
+    LAZHA_V_STRUCTE          =  6,
+    UNINIT_STACK             =  7,
+    INVALID_POINTER          =  8,
+    I_KAK_PECHATAT           =  9,
+    I_CHTO_YA_DOLZHEN_PUSHIT = 10,
 };
 
 const int DefaultSize = 8;
@@ -57,11 +61,11 @@ StackError StackPush   (Stack *src, void *elem);
 StackError StackPop    (Stack *src, void *elem);
 StackError StackDump   (Stack *src, const char *file, const int line, const char *errname);
 StackError StackCheck  (Stack *src );
-StackError Resize      (Stack *src, size_t size, size_t lastsize);
+StackError Resize      (Stack *src, size_t size);
 StackError StackDtor   (Stack *src);
 
 const char *Definition (StackError code );
-void SetLog(const char* name);
+void SetLog(const char* filename);
 
 #ifndef NOOOOOOOOOOOOOO
     #define STACK_ASSERT(st) \
@@ -77,7 +81,7 @@ void SetLog(const char* name);
     #define DUMP(st) StackDump (st, __FILE__, __LINE__, "SimpleDump");
 
     #ifndef NOHASH
-        #define DEBUG if (src->size) src->info = {__FILE__, Hash(src->src, (char *) src->src+src->size), var};
+        #define DEBUG if (src->size) src->info = {__FILE__, Hash(src->data, (char *) src->data + src->size), var};
     #endif
 
 #else
