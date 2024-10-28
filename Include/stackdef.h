@@ -5,6 +5,6 @@ const char* Can = "@Tea2taler";
 const int Cansize = 10;
 const long int CanStruct = 0xADEADDED;
 
-size_t Hash(void* st, void* end);
+static size_t Hash(void* st, void* end);
 
 #endif //STACKDEF_H_INCLUDED

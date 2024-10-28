@@ -4,8 +4,11 @@
 #include <string.h>
 #include <assert.h>
 
+#define NOOOOOOOOOOOOOO 11
+
 #include "stack.h"
 #include "stackdef.h"
+
 
 template <typename T>
 inline T val (T value) { return StackCheck(value);}
@@ -41,6 +44,8 @@ StackError StackCtor (Stack *src, size_t length, size_t elsize, char toxicvalue,
     #endif
 
     src->pointer = 0;
+
+    DEBUG;
 
     STACK_ASSERT(src);
     return StackCheck(src);
@@ -93,7 +98,7 @@ StackError StackPush (Stack *src, void* elem){
     return StackCheck(src);
 }
 
-static StackError Resize(Stack *src, size_t size) {
+StackError Resize(Stack *src, size_t size) {
     STACK_ASSERT(src);
 
     src->size =  Max(size, DefaultSize * src->elsize);
@@ -144,7 +149,7 @@ StackError StackPop (Stack *src, void *elem){
     return StackCheck(src);
 }
 
-static StackError StackCheck (Stack *src) {
+StackError StackCheck (Stack *src) {
 
     if (src == NULL)                                 return EMPTY_STACK    ;
     if (src->data == NULL)                            return EMPTY_SOURCE   ;
@@ -167,7 +172,7 @@ static StackError StackCheck (Stack *src) {
     return ST_OK;
 }
 
-static StackError StackDump(Stack *src, const char *file, const int line, const char *errname) {
+StackError StackDump(Stack *src, const char *file, const int line, const char *errname) {
 
     fprintf(flog, "Dump from %s:%d\n", file, line);
 
